@@ -12,6 +12,7 @@ type Heuristics struct {
 	DominatingSet dominatingSet
 	need          []int
 	utility       []int
+	colors        []int
 }
 
 type dominatingSet []int
@@ -32,12 +33,7 @@ func New(g *graph.Graph) *Heuristics {
 		g:       g,
 		need:    make([]int, g.N),
 		utility: make([]int, g.N),
-	}
-	for i := 0; i < heuristic.g.N; i++ {
-		heuristic.need = append(heuristic.need, 0)
-	}
-	for i := 0; i < heuristic.g.N; i++ {
-		heuristic.utility = append(heuristic.utility, 0)
+		colors:  make([]int, g.N),
 	}
 	return &heuristic
 }
