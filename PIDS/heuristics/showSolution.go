@@ -4,7 +4,9 @@ import "fmt"
 
 //ShowSolution show solution
 func (h *Heuristics) ShowSolution() {
+
 	fmt.Println("Solution size :: ", len(h.DominatingSet))
+
 	for _, v := range h.DominatingSet {
 		fmt.Print(v+1, " ")
 	}
@@ -13,6 +15,7 @@ func (h *Heuristics) ShowSolution() {
 
 //ShowColors show the colors
 func (h *Heuristics) ShowColors() {
+	
 	fmt.Println("colors :: ")
 	for k, v := range h.colors {
 		if v == 0 {

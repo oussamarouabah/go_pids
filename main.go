@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/oussamarouabah/pids_go/PIDS/graph"
@@ -10,31 +11,39 @@ import (
 )
 
 func main() {
-	g := graph.New(os.Args[1])
-	//g.ShowAdjList()
-	h := heuristcs.New(g)
-	// Max needd work fine
-	h.Init()
-	h.ShowNeeds()
-	h.MaxUtility()
-	fmt.Println("MaxNeed algo finish solution size :: ", len(h.DominatingSet))
-	h.ShowSolution()
-	h.ShowColors()
-	h.ShowNeeds()
-
-	// to do in init calculate the utility
-	// h.Init()
-	// begin = time.Now().Nanosecond()
-	// h.MaxUtility()
-	// end = time.Now().Nanosecond()
-	// fmt.Println("MaxUtility algo finish in ", end-begin , " ns solution size :: ", len(h.DominatingSet))
-	//h.ShowSolution()
-
-	// h.Init()
-	// begin = time.Now().Nanosecond()
-	// h.MaxNeedMaxUtility()
-	// end = time.Now().Nanosecond()
-	// fmt.Println("MaxNeedMaxUtility algo finish in ", end-begin, " ns solution size :: ", len(h.DominatingSet))
-	// h.ShowSolution()
-
+	if len(os.Args) < 2 {
+		fmt.Println("to call this program give it this params :")
+		fmt.Println("1. algorithm name which it can be :: ")
+		fmt.Println("1.1 maxneed.", "\n1.2 maxutility.", "\n1.3 maxneedmaxutility.")
+		fmt.Println("2. Path of the file")
+		log.Fatal("read the guide above.")
+	}
+	switch os.Args[1] {
+	case "maxneed":
+		g := graph.New(os.Args[2])
+		h := heuristcs.New(g)
+		h.Init()
+		h.MaxNeed()
+		fmt.Println("MaxNeed Heuristic :: ")
+		h.ShowSolution()
+	case "maxutility":
+		g := graph.New(os.Args[2])
+		h := heuristcs.New(g)
+		h.Init()
+		fmt.Println("MaxUtility Heuristic :: ")
+		h.MaxUtility()
+		h.ShowSolution()
+	case "maxneedmaxutility":
+		g := graph.New(os.Args[2])
+		h := heuristcs.New(g)
+		h.Init()
+		fmt.Println("MaxNeedMaxUtility Heuristic :: ")
+		h.MaxNeedMaxUtility()
+		h.ShowSolution()
+	default:
+		fmt.Println("to call this program give it this params :")
+		fmt.Println("1. algorithm name which it can be :: ")
+		fmt.Println("1.1 maxneed.", "\n1.2 maxutility.", "\n1.3 maxneedmaxutility.")
+		fmt.Println("2. Path of the file")
+	}
 }

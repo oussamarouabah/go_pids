@@ -4,7 +4,7 @@ package heuristcs
 func (h *Heuristics) MaxUtility() {
 
 	needs := h.getSumNeed()
-	
+
 	for needs > 0 {
 
 		u := h.GetMaxUtility(h.getDominatedSet())
