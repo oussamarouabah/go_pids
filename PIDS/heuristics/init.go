@@ -9,12 +9,12 @@ func (h *Heuristics) Init() {
 
 	h.DominatingSet = []int{}
 
-	for i := 0; i < h.g.N; i++ {
-		h.need[i] = (len(h.g.AdjList[i]) + 1) / 2
+	for i := 0; i < h.N; i++ {
+		h.need[i] = (len(h.AdjList[i]) + 1) / 2
 	}
 
-	for i := 0; i < h.g.N; i++ {
-		for _, v := range h.g.AdjList[i] {
+	for i := 0; i < h.N; i++ {
+		for _, v := range h.AdjList[i] {
 			h.utility[i] += h.need[v]
 		}
 	}
@@ -24,7 +24,7 @@ func (h *Heuristics) Init() {
 //ShowNeeds show needs
 func (h *Heuristics) ShowNeeds() {
 
-	for i := 0; i < h.g.N; i++ {
+	for i := 0; i < h.N; i++ {
 		fmt.Println(i, " :: ", h.need[i])
 	}
 }

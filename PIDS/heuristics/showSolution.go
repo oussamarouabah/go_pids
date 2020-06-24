@@ -22,7 +22,7 @@ func (h *Heuristics) ShowColors() {
 			fmt.Println("Need[", k+1, "] = ", h.need[k], " Utility[", k+1, "] = ", h.utility[k])
 		} else {
 			fmt.Print("Colors[", k+1, "] = ", h.colors[k], "\t")
-			neighbors := h.g.AdjList[k]
+			neighbors := h.AdjList[k]
 			for _, value := range neighbors {
 				fmt.Print(value, "\t")
 			}

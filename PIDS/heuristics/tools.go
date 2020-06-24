@@ -8,7 +8,7 @@ import (
 
 //Heuristics data
 type Heuristics struct {
-	g             *graph.Graph
+	*graph.Graph
 	DominatingSet dominatingSet
 	need          []int
 	utility       []int
@@ -31,10 +31,11 @@ func (d *dominatingSet) find(x int) bool {
 func New(g *graph.Graph) *Heuristics {
 
 	heuristic := Heuristics{
-		g:       g,
-		need:    make([]int, g.N),
-		utility: make([]int, g.N),
-		colors:  make([]int, g.N),
+		g,
+		make(dominatingSet, g.N),
+		make([]int, g.N),
+		make([]int, g.N),
+		make([]int, g.N),
 	}
 
 	return &heuristic
@@ -53,7 +54,7 @@ func (h *Heuristics) getDominatedSet() []int {
 
 	dominated := []int{}
 
-	for i := 0; i < h.g.N; i++ {
+	for i := 0; i < h.N; i++ {
 		if h.DominatingSet.find(i) {
 			continue
 		}
@@ -64,7 +65,7 @@ func (h *Heuristics) getDominatedSet() []int {
 
 func (h *Heuristics) getDominatedNeighbors(x int) []int {
 
-	data := h.g.AdjList[x]
+	data := h.AdjList[x]
 	dominated := []int{}
 
 	for _, i := range data {

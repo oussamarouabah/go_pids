@@ -23,7 +23,7 @@ func (h *Heuristics) MaxNeedMaxUtility() {
 		needs -= h.need[u]
 		h.colors[u] = 1
 
-		for _, v := range h.g.AdjList[u] {
+		for _, v := range h.AdjList[u] {
 
 			h.colors[v] = 1
 
@@ -32,7 +32,7 @@ func (h *Heuristics) MaxNeedMaxUtility() {
 				h.need[v]--
 				needs--
 
-				for _, z := range h.g.AdjList[v] {
+				for _, z := range h.AdjList[v] {
 
 					if h.utility[z] > 0 {
 
