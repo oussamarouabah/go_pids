@@ -13,6 +13,7 @@ type Heuristics struct {
 	need          []int
 	utility       []int
 	colors        []int
+	reference     []int
 }
 
 type dominatingSet []int
@@ -36,6 +37,7 @@ func New(g *graph.Graph) *Heuristics {
 		make([]int, g.N),
 		make([]int, g.N),
 		make([]int, g.N),
+		make([]int, g.N),
 	}
 
 	return &heuristic
@@ -55,7 +57,7 @@ func (h *Heuristics) getDominatedSet() []int {
 	dominated := []int{}
 
 	for i := 0; i < h.N; i++ {
-		if h.DominatingSet.find(i) {
+		if h.colors[i] != 0 {
 			continue
 		}
 		dominated = append(dominated, i)
@@ -69,7 +71,7 @@ func (h *Heuristics) getDominatedNeighbors(x int) []int {
 	dominated := []int{}
 
 	for _, i := range data {
-		if h.DominatingSet.find(i) {
+		if h.colors[i] != 0 {
 			continue
 		}
 		dominated = append(dominated, i)
@@ -82,14 +84,14 @@ func (h *Heuristics) GetMaxNeed(dominated []int) int {
 
 	max := -1
 	for _, v := range dominated {
-		if h.need[v] > max {
-			max = h.need[v]
+		if h.need[v]-h.reference[v] > max {
+			max = h.need[v] - h.reference[v]
 		}
 	}
 
 	result := []int{}
 	for _, v := range dominated {
-		if h.need[v] == max {
+		if h.need[v]-h.reference[v] == max {
 			result = append(result, v)
 		}
 	}
