@@ -1,7 +1,5 @@
 package heuristcs
 
-import "fmt"
-
 //MaxNeedMaxUtility heuristic
 func (h *Heuristics) MaxNeedMaxUtility() {
 	needs := 0
@@ -22,7 +20,6 @@ func (h *Heuristics) MaxNeedMaxUtility() {
 			if h.needReference[v] == h.need[v] && h.colors[v] == 0 {
 				h.colors[v] = 1
 				needs++
-				fmt.Println("V ::", v, "needs ::", needs)
 			}
 		}
 	}
