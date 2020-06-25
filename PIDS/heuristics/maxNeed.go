@@ -1,52 +1,27 @@
 package heuristcs
 
+import "fmt"
+
 //MaxNeed heuristic
 func (h *Heuristics) MaxNeed() {
 
-	needs := h.getSumNeed()
+	needs := 0
 
-	for needs > 0 {
+	for needs < h.N {
 
 		u := h.GetMaxNeed(h.getDominatedSet())
-
-		if u == -1 {
-			continue
-		}
-
 		h.DominatingSet = append(h.DominatingSet, u)
-
-		needs -= h.need[u]
+		needs++
 		h.colors[u] = 1
-
+		h.reference[u] = h.need[u]
+		fmt.Println("dominanat :: ", u+1)
 		for _, v := range h.AdjList[u] {
-
-			h.reference[v] ++
-
-			if h.reference[v] >= h.need[v] {
+			h.reference[v]++
+			if h.reference[v] >= h.need[v] && h.colors[v] == 0 {
 				h.colors[v] = 1
+				needs++
 			}
-
-			if h.colors[v] == 0 {
-				needs--
-
-				for _, z := range h.AdjList[v] {
-
-					if h.utility[z] > 0 {
-
-						h.utility[z]--
-
-					}
-
-				}
-			}
-			
-
-			if h.utility[v] > 0 {
-
-				h.utility[v] -= h.need[u]
-
-			}
-
+			fmt.Println("ref(", v+1, ") = ", h.reference[v], "color(", v+1, ") = ", h.colors[v], "need(", v+1, ") = ", h.need[v])
 		}
 
 	}

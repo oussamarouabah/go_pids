@@ -1,9 +1,5 @@
 package heuristcs
 
-import (
-	"fmt"
-)
-
 //Init befor start the algo
 func (h *Heuristics) Init() {
 
@@ -19,12 +15,4 @@ func (h *Heuristics) Init() {
 		}
 	}
 
-}
-
-//ShowNeeds show needs
-func (h *Heuristics) ShowNeeds() {
-
-	for i := 0; i < h.N; i++ {
-		fmt.Println(i, " :: ", h.need[i])
-	}
 }

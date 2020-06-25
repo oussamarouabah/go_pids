@@ -1,3 +1,0 @@
-MaxNeed Heuristic :: 
-Solution size ::  9
-34 1 33 2 25 3 11 7 24 

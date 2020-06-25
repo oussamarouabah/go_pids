@@ -26,6 +26,7 @@ func main() {
 		h.MaxNeed()
 		fmt.Println("MaxNeed Heuristic :: ")
 		h.ShowSolution()
+		h.CheckSolution()
 	case "maxutility":
 		g := graph.New(os.Args[2])
 		h := heuristcs.New(g)
@@ -33,6 +34,7 @@ func main() {
 		fmt.Println("MaxUtility Heuristic :: ")
 		h.MaxUtility()
 		h.ShowSolution()
+		h.ShowColors()
 	case "maxneedmaxutility":
 		g := graph.New(os.Args[2])
 		h := heuristcs.New(g)
