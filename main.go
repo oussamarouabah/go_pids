@@ -47,7 +47,7 @@ func main() {
 		g := graph.New(os.Args[2])
 		h := heuristcs.New(g)
 		h.Init()
-		fmt.Println("MaxNeedMaxUtility Heuristic :: ")
+		fmt.Println("MinNeedMaxUtility Heuristic :: ")
 		h.MinNeedMaxUtility()
 		h.ShowSolution()
 		h.CheckSolution()
