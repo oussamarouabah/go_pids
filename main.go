@@ -34,7 +34,7 @@ func main() {
 		fmt.Println("MaxUtility Heuristic :: ")
 		h.MaxUtility()
 		h.ShowSolution()
-		h.ShowColors()
+		h.CheckSolution()
 	case "maxneedmaxutility":
 		g := graph.New(os.Args[2])
 		h := heuristcs.New(g)
@@ -42,6 +42,15 @@ func main() {
 		fmt.Println("MaxNeedMaxUtility Heuristic :: ")
 		h.MaxNeedMaxUtility()
 		h.ShowSolution()
+		h.CheckSolution()
+	case "minneedmaxutility":
+		g := graph.New(os.Args[2])
+		h := heuristcs.New(g)
+		h.Init()
+		fmt.Println("MaxNeedMaxUtility Heuristic :: ")
+		h.MinNeedMaxUtility()
+		h.ShowSolution()
+		h.CheckSolution()
 	default:
 		fmt.Println("to call this program give it this params :")
 		fmt.Println("1. algorithm name which it can be :: ")

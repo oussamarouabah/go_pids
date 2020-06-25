@@ -1,13 +1,22 @@
 package heuristcs
 
-//MaxUtility heuristic
-func (h *Heuristics) MaxUtility() {
+//MinNeedMaxUtility heuristic
+func (h *Heuristics) MinNeedMaxUtility() {
 	needs := 0
 	for needs < h.N {
-		u := h.GetMaxUtility(h.getUnDominatedSet())
+		z := h.GetMinNeed(h.getUnDominatedSet())
+		if z == -1 {
+			break
+		}
+		u := h.GetMaxUtility(h.getUnDominatingNeighbors(z))
+		if u == -1 {
+			break
+		}
 		h.DominatingSet = append(h.DominatingSet, u)
-		needs++
-		h.colors[u] = 1
+		if h.colors[u] == 0 {
+			h.colors[u] = 1
+			needs++
+		}
 		h.needReference[u] = h.need[u]
 		for _, v := range h.AdjList[u] {
 			h.needReference[v]++

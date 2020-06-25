@@ -1,60 +1,29 @@
 package heuristcs
 
+import "fmt"
+
 //MaxNeedMaxUtility heuristic
 func (h *Heuristics) MaxNeedMaxUtility() {
-
-	needs := h.getSumNeed()
-
-	for needs > 0 {
-		z := h.GetMaxNeed(h.getDominatedSet())
-
-		if z == -1 {
-			continue
-		}
-
-		u := h.GetMaxUtility(h.getDominatedNeighbors(z))
-
+	needs := 0
+	for needs < h.N {
+		z := h.GetMaxNeed(h.getUnDominatedSet())
+		u := h.GetMaxUtility(h.getUnDominatingNeighbors(z))
 		if u == -1 {
-			continue
+			break
 		}
-
 		h.DominatingSet = append(h.DominatingSet, u)
-
-		needs -= h.need[u]
-		h.colors[u] = 1
-
-		for _, v := range h.AdjList[u] {
-
-			h.colors[v] = 1
-
-			if h.need[v] > 0 {
-
-				h.need[v]--
-				needs--
-
-				for _, z := range h.AdjList[v] {
-
-					if h.utility[z] > 0 {
-
-						h.utility[z]--
-
-					}
-
-				}
-
-			}
-
-			if h.utility[v] > 0 {
-
-				h.utility[v] -= h.need[u]
-
-			}
-
+		if h.colors[u] == 0 {
+			h.colors[u] = 1
+			needs++
 		}
-
-		h.need[u] = 0
-		h.utility[u] = 0
-
+		h.needReference[u] = h.need[u]
+		for _, v := range h.AdjList[u] {
+			h.needReference[v]++
+			if h.needReference[v] == h.need[v] && h.colors[v] == 0 {
+				h.colors[v] = 1
+				needs++
+				fmt.Println("V ::", v, "needs ::", needs)
+			}
+		}
 	}
-
 }

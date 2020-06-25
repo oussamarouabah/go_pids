@@ -9,20 +9,22 @@ import (
 //Heuristics data
 type Heuristics struct {
 	*graph.Graph
-	DominatingSet dominatingSet
-	need          []int
-	utility       []int
-	colors        []int
-	reference     []int
+	DominatingSet    dominatingSet
+	need             []int
+	utility          []int
+	colors           []int
+	needReference    []int
+	utilityReference []int
 }
 
 type dominatingSet []int
 
-func (d *dominatingSet) find(x int) bool {
+func (d dominatingSet) find(x int) bool {
 	result := false
-	for _, v := range *d {
+	for _, v := range d {
 		if v == x {
 			result = true
+			break
 		}
 	}
 	return result
@@ -34,6 +36,7 @@ func New(g *graph.Graph) *Heuristics {
 	heuristic := Heuristics{
 		g,
 		make(dominatingSet, g.N),
+		make([]int, g.N),
 		make([]int, g.N),
 		make([]int, g.N),
 		make([]int, g.N),
@@ -52,7 +55,7 @@ func (h *Heuristics) getSumNeed() int {
 	return sum
 }
 
-func (h *Heuristics) getDominatedSet() []int {
+func (h *Heuristics) getUnDominatedSet() []int {
 
 	dominated := []int{}
 
@@ -65,13 +68,13 @@ func (h *Heuristics) getDominatedSet() []int {
 	return dominated
 }
 
-func (h *Heuristics) getDominatedNeighbors(x int) []int {
+func (h *Heuristics) getUnDominatingNeighbors(x int) []int {
 
 	data := h.AdjList[x]
 	dominated := []int{}
 
 	for _, i := range data {
-		if h.colors[i] != 0 {
+		if h.DominatingSet.find(i) {
 			continue
 		}
 		dominated = append(dominated, i)
@@ -84,14 +87,20 @@ func (h *Heuristics) GetMaxNeed(dominated []int) int {
 
 	max := -1
 	for _, v := range dominated {
-		if h.need[v]-h.reference[v] > max {
-			max = h.need[v] - h.reference[v]
+		// if h.need[v]-h.reference[v] > max {
+		// 	max = h.need[v] - h.reference[v]
+		// }
+		if h.need[v] > max {
+			max = h.need[v]
 		}
 	}
 
 	result := []int{}
 	for _, v := range dominated {
-		if h.need[v]-h.reference[v] == max {
+		// if h.need[v]-h.reference[v] == max {
+		// 	result = append(result, v)
+		// }
+		if h.need[v] == max {
 			result = append(result, v)
 		}
 	}
@@ -106,7 +115,7 @@ func (h *Heuristics) GetMaxNeed(dominated []int) int {
 //GetMaxUtility heuristic
 func (h *Heuristics) GetMaxUtility(dominated []int) int {
 
-	max := -1
+	max := h.utility[dominated[0]]
 	for _, v := range dominated {
 		if h.utility[v] > max {
 			max = h.utility[v]
@@ -130,7 +139,7 @@ func (h *Heuristics) GetMaxUtility(dominated []int) int {
 //GetMinNeed heuristic
 func (h *Heuristics) GetMinNeed(dominated []int) int {
 
-	min := -1
+	min := h.need[dominated[0]]
 	for _, v := range dominated {
 		if h.need[v] < min && h.need[v] > 0 {
 			min = h.need[v]
