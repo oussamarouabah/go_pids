@@ -11,13 +11,29 @@ func (h *Heuristics) ShowSolution() {
 		fmt.Print(v+1, " ")
 	}
 	fmt.Print("\n")
+	
+}
+
+func (h *Heuristics) show() {
+	for i := 0; i < h.N; i++ {
+		fmt.Println(i+1, ":", "Need", h.need[i] - h.needReference[i], "Utility", h.utility[i] - h.utilityReference[i])
+	}
 }
 
 //CheckSolution print needs
 func (h *Heuristics) CheckSolution() {
-	for i := 0; i < h.N; i++ {
-		if h.needReference[i] < h.need[i] || h.colors[i] == 0 {
-			fmt.Println("colors(", i+1, ") = ", h.colors[i])
+	references := make([]int, h.N)
+	for _, v := range h.DominatingSet {
+		for _, v := range h.AdjList[v] {
+			references[v]++
+		}
+	}
+	for k, v := range references {
+		if h.need[k] > v {
+			fmt.Println("error need bigger than reference", k+1)
+		}
+		if h.needReference[k] != v {
+			fmt.Println("error reference uneqaul at:", k+1, "new ref :", v, "old :", h.needReference[k])
 		}
 	}
 }

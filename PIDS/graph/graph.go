@@ -18,12 +18,12 @@ type Graph struct {
 //New generete a graph
 func New(path string) *Graph {
 	//TO Do open file and generate the AdjList && MatList
-	d, err := ioutil.ReadFile(path)
+	dataFile, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal("cannot open file ..")
 	}
 
-	parts := regexp.MustCompile("([0-9]+)").FindAllString(string(d), -1)
+	parts := regexp.MustCompile("([0-9]+)").FindAllString(string(dataFile), -1)
 
 	N, err := strconv.Atoi(parts[0])
 	if err != nil {

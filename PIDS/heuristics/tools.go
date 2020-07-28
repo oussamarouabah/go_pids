@@ -20,34 +20,29 @@ type Heuristics struct {
 type dominatingSet []int
 
 func (d dominatingSet) find(x int) bool {
-	result := false
 	for _, v := range d {
 		if v == x {
-			result = true
-			break
+			return true
 		}
 	}
-	return result
+	return false
 }
 
 //New init the heuristic
 func New(g *graph.Graph) *Heuristics {
-
 	heuristic := Heuristics{
-		g,
-		make(dominatingSet, g.N),
-		make([]int, g.N),
-		make([]int, g.N),
-		make([]int, g.N),
-		make([]int, g.N),
-		make([]int, g.N),
+		Graph:            g,
+		DominatingSet:    make(dominatingSet, g.N),
+		need:             make([]int, g.N),
+		utility:          make([]int, g.N),
+		colors:           make([]int, g.N),
+		needReference:    make([]int, g.N),
+		utilityReference: make([]int, g.N),
 	}
-
 	return &heuristic
 }
 
 func (h *Heuristics) getSumNeed() int {
-
 	sum := 0
 	for _, v := range h.need {
 		sum += v
@@ -56,24 +51,11 @@ func (h *Heuristics) getSumNeed() int {
 }
 
 func (h *Heuristics) getUnDominatedSet() []int {
-
 	dominated := []int{}
-
 	for i := 0; i < h.N; i++ {
-		if h.colors[i] != 0 {
-			continue
-		}
-		dominated = append(dominated, i)
-	}
-	return dominated
-}
-
-func (h *Heuristics) getUnDominatingNeighbors(x int) []int {
-
-	data := h.AdjList[x]
-	dominated := []int{}
-
-	for _, i := range data {
+		// if h.colors[i] != 0 {
+		// 	continue
+		// }
 		if h.DominatingSet.find(i) {
 			continue
 		}
@@ -82,13 +64,27 @@ func (h *Heuristics) getUnDominatingNeighbors(x int) []int {
 	return dominated
 }
 
+func (h *Heuristics) getUnDominatingNeighbors(x int) []int {
+	data := h.AdjList[x]
+	dominated := []int{}
+	for _, i := range data {
+		if h.DominatingSet.find(i) {
+			continue
+		}
+		// if h.colors[i] != 0 {
+		// 	continue
+		// }
+		dominated = append(dominated, i)
+	}
+	return dominated
+}
+
 //GetMaxNeed heuristic
 func (h *Heuristics) GetMaxNeed(dominated []int) int {
-
 	max := -1
 	for _, v := range dominated {
-		// if h.need[v]-h.reference[v] > max {
-		// 	max = h.need[v] - h.reference[v]
+		// if ref := h.need[v] - h.needReference[v]; ref > 0 && ref > max {
+		// 	max = ref
 		// }
 		if h.need[v] > max {
 			max = h.need[v]
@@ -97,7 +93,7 @@ func (h *Heuristics) GetMaxNeed(dominated []int) int {
 
 	result := []int{}
 	for _, v := range dominated {
-		// if h.need[v]-h.reference[v] == max {
+		// if ref := h.need[v] - h.needReference[v]; ref == max {
 		// 	result = append(result, v)
 		// }
 		if h.need[v] == max {
@@ -108,54 +104,51 @@ func (h *Heuristics) GetMaxNeed(dominated []int) int {
 	if len(result) == 0 {
 		return -1
 	}
-
 	return result[rand.Intn(len(result))]
 }
 
 //GetMaxUtility heuristic
 func (h *Heuristics) GetMaxUtility(dominated []int) int {
-
-	max := h.utility[dominated[0]]
+	max := -1
 	for _, v := range dominated {
-		if h.utility[v] > max {
-			max = h.utility[v]
+		if util := h.utility[v] - h.utilityReference[v]; util > 0 && util > max {
+			max = util
 		}
+		// if h.utility[v] > max {
+		// 	max = h.utility[v]
+		// }
 	}
-
 	result := []int{}
 	for _, v := range dominated {
-		if h.utility[v] == max {
+		if h.utility[v]-h.utilityReference[v] == max {
 			result = append(result, v)
 		}
+		// if h.utility[v] == max {
+		// 	result = append(result, v)
+		// }
 	}
-
 	if len(result) == 0 {
 		return -1
 	}
-
 	return result[rand.Intn(len(result))]
 }
 
 //GetMinNeed heuristic
 func (h *Heuristics) GetMinNeed(dominated []int) int {
-
 	min := h.need[dominated[0]]
 	for _, v := range dominated {
 		if h.need[v] < min && h.need[v] > 0 {
 			min = h.need[v]
 		}
 	}
-
 	result := []int{}
 	for _, v := range dominated {
 		if h.need[v] == min {
 			result = append(result, v)
 		}
 	}
-
 	if len(result) == 0 {
 		return -1
 	}
-
 	return result[rand.Intn(len(result))]
 }
