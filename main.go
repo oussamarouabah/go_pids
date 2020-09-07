@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		fmt.Println("to call this program give it this params :")
 		fmt.Println("1. algorithm name which it can be :: ")
 		fmt.Println("1.1 maxneed.", "\n1.2 maxutility.", "\n1.3 maxneedmaxutility.")

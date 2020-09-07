@@ -24,7 +24,7 @@ func (h *Heuristics) MaxUtility() {
 					needs++
 				}
 				for _, value := range h.AdjList[v] {
-					if h.utilityReference[value] < h.need[value] {
+					if h.utilityReference[value] < h.utility[value] {
 						h.utilityReference[value]++
 					}
 				}

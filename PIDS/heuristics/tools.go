@@ -111,21 +111,21 @@ func (h *Heuristics) GetMaxNeed(dominated []int) int {
 func (h *Heuristics) GetMaxUtility(dominated []int) int {
 	max := -1
 	for _, v := range dominated {
-		if util := h.utility[v] - h.utilityReference[v]; util > 0 && util > max {
-			max = util
-		}
-		// if h.utility[v] > max {
-		// 	max = h.utility[v]
+		// if util := h.utility[v] - h.utilityReference[v]; util > 0 && util > max {
+		// 	max = util
 		// }
+		if h.utility[v] > max {
+			max = h.utility[v]
+		}
 	}
 	result := []int{}
 	for _, v := range dominated {
-		if h.utility[v]-h.utilityReference[v] == max {
-			result = append(result, v)
-		}
-		// if h.utility[v] == max {
+		// if h.utility[v]-h.utilityReference[v] == max {
 		// 	result = append(result, v)
 		// }
+		if h.utility[v] == max {
+			result = append(result, v)
+		}
 	}
 	if len(result) == 0 {
 		return -1
@@ -137,7 +137,7 @@ func (h *Heuristics) GetMaxUtility(dominated []int) int {
 func (h *Heuristics) GetMinNeed(dominated []int) int {
 	min := h.need[dominated[0]]
 	for _, v := range dominated {
-		if h.need[v] < min && h.need[v] > 0 {
+		if h.need[v] < min  {
 			min = h.need[v]
 		}
 	}
