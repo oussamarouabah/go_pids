@@ -5,7 +5,7 @@ func (h *Heuristics) MaxNeedMaxUtility() {
 	needs := 0
 	for needs < h.N {
 		z := h.GetMaxNeed(h.getUnDominatedSet())
-		if z == - 1 {
+		if z == -1 {
 			continue
 		}
 		u := h.GetMaxUtility(h.getUnDominatingNeighbors(z))

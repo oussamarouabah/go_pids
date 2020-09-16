@@ -137,7 +137,7 @@ func (h *Heuristics) GetMaxUtility(dominated []int) int {
 func (h *Heuristics) GetMinNeed(dominated []int) int {
 	min := h.need[dominated[0]]
 	for _, v := range dominated {
-		if h.need[v] < min  {
+		if h.need[v] < min {
 			min = h.need[v]
 		}
 	}

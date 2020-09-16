@@ -11,12 +11,12 @@ func (h *Heuristics) ShowSolution() {
 		fmt.Print(v+1, " ")
 	}
 	fmt.Print("\n")
-	
+
 }
 
 func (h *Heuristics) show() {
 	for i := 0; i < h.N; i++ {
-		fmt.Println(i+1, ":", "Need", h.need[i] - h.needReference[i], "Utility", h.utility[i] - h.utilityReference[i])
+		fmt.Println(i+1, ":", "Need", h.need[i]-h.needReference[i], "Utility", h.utility[i]-h.utilityReference[i])
 	}
 }
 

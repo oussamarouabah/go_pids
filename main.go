@@ -6,6 +6,7 @@ import (
 
 	check "github.com/oussamarouabah/pids_go/PIDS/checkSolution"
 	"github.com/oussamarouabah/pids_go/PIDS/graph"
+	"github.com/oussamarouabah/pids_go/PIDS/mai"
 	"github.com/oussamarouabah/pids_go/PIDS/pan"
 	"github.com/oussamarouabah/pids_go/PIDS/rei"
 	"github.com/oussamarouabah/pids_go/PIDS/wang"
@@ -36,6 +37,17 @@ func main() {
 
 	p := pan.New(g)
 	p.Greedy()
+	ch = check.New(g, r.DominatingSet)
+	ch.CheckSolution()
+
+	fmt.Println("/////////////////////////////////////////////////")
+	fmt.Println("/////////////////////////////////////////////////")
+	fmt.Println("/////////////////////////////////////////////////")
+	fmt.Println("/////////////////////////////////////////////////")
+	fmt.Println("/////////////////////////////////////////////////")
+
+	m := mai.New(g)
+	m.Greedy()
 	ch = check.New(g, r.DominatingSet)
 	ch.CheckSolution()
 }
