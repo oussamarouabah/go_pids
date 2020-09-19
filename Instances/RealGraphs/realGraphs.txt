@@ -1,0 +1,13 @@
+
+Name 		| Nodes 		| 	edges 	| max degree 	| avg degree
+
+facebook 		 4039 			88234 		1045    43.69
+twitter  		81306	 	  2420766		3383	33.01
+artist	 		50515	 	   819306		1469	32.42
+athletes        13866           86859		468   12.52
+company         14113	        52311		215		7.38
+new_sites       27917          206260		678		14.75
+public figure   11565 	        67115		326		11.59
+dolphins	       62	          159		12		5.12
+football          115	          613		12		10.66
+karate	           34	           78 		17		4.58

@@ -57,7 +57,8 @@ func New(path string) *Graph {
 
 		graph.AdjList[v-1] = append(graph.AdjList[v-1], z-1)
 		graph.AdjList[z-1] = append(graph.AdjList[z-1], v-1)
-
+		// graph.AdjList[v] = append(graph.AdjList[v], z)
+		// graph.AdjList[z] = append(graph.AdjList[z], v)
 	}
 	return &graph
 }

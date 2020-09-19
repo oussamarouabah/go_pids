@@ -1,0 +1,7 @@
+
+Name , 						nodes ,				 edges , 			max, 			avg
+NEW_email-enron-only 		143 				  623 				 42 		8.713286713286713
+NEW_ca-CSphd   				1882 				  1740               46         1.849096705632306
+NEW_email-univ				1133 				  5451 				 71         9.62224183583407
+NEW_ca-Erdos992		        5094                  7515 				 61         2.950530035335689
+NEW_web-EPA		            4271                  8909              175         4.171856708030906
