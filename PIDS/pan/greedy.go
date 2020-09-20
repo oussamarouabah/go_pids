@@ -1,7 +1,5 @@
 package pan
 
-import "fmt"
-
 //Greedy algorithm
 func (p *Pan) Greedy() {
 	p.delta()
@@ -18,7 +16,6 @@ func (p *Pan) Greedy() {
 			}
 		}
 	}
-	fmt.Println(len(p.DominatingSet), p.N)
 }
 
 func (p *Pan) decrimantDelta(index int) {

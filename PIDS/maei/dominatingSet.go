@@ -1,4 +1,4 @@
-package mai
+package maei
 
 type dominatingSet []int
 

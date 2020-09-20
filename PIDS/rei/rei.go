@@ -108,7 +108,6 @@ func (r *Rei) getMaxCover() int {
 //Greedy method of rei's
 func (r *Rei) Greedy() {
 	r.init()
-	r.showdata()
 	for sum := r.getSumNeed(); sum > 0; {
 		vertex := r.getMaxCover()
 		r.add(vertex)
@@ -125,7 +124,4 @@ func (r *Rei) Greedy() {
 		}
 		r.NeedDegree[vertex].reference = r.NeedDegree[vertex].fixed
 	}
-	fmt.Println(r.DominatingSet, len(r.DominatingSet))
-	fmt.Println(r.UndominatedSet, len(r.UndominatedSet))
-	r.showdata()
 }

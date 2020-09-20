@@ -1,7 +1,7 @@
 package wang
 
 import (
-	"fmt"
+	"math/rand"
 
 	"github.com/oussamarouabah/pids_go/PIDS/graph"
 )
@@ -22,6 +22,7 @@ func (n *need) getNeed() int {
 	return n.fixed - n.reference
 }
 
+//Wang structure
 type Wang struct {
 	*graph.Graph
 	DominatingSet  dominatingSet
@@ -70,22 +71,26 @@ func (w *Wang) getSumNeed() (result int) {
 	return
 }
 
-func (w *Wang) getMaxF() (vertex int) {
-	need, vertex := w.NeedDegree[w.UndominatedSet[0]].getMin(), w.UndominatedSet[0]
+func (w *Wang) getMaxF() int {
+	max := w.NeedDegree[w.UndominatedSet[0]].getMin()
 	for _, v := range w.UndominatedSet {
-		if w.NeedDegree[v].getMin() > need {
-			need, vertex = w.NeedDegree[vertex].getMin(), v
+		if tmax := w.NeedDegree[v].getMin(); tmax > max {
+			max = tmax
 		}
 	}
-	return
-}
-
-func (w *Wang) showdata() {
-	for i := 0; i < w.N; i++ {
-		fmt.Println("need(", i, ") :", w.NeedDegree[i], ":", w.NeedDegree[i].getNeed())
+	result := make([]int, 0)
+	for _, v := range w.UndominatedSet {
+		if tmax := w.NeedDegree[v].getMin(); tmax == max {
+			result = append(result, v)
+		}
 	}
+	if len(result) == 0 {
+		return -1
+	}
+	return result[rand.Intn(len(result))]
 }
 
+//Greedy the actual greedy method of wang.
 func (w *Wang) Greedy() {
 	w.need()
 	h := w.getSumNeed()
@@ -102,7 +107,4 @@ func (w *Wang) Greedy() {
 			}
 		}
 	}
-
-	fmt.Println(w.DominatingSet, len(w.DominatingSet))
-	w.showdata()
 }
