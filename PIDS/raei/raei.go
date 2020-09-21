@@ -1,8 +1,6 @@
-package rei
+package raei
 
 import (
-	"fmt"
-
 	"github.com/oussamarouabah/pids_go/PIDS/graph"
 )
 
@@ -25,7 +23,7 @@ func (c *cover) getCover() int {
 }
 
 //Rei struct holds the needed data
-type Rei struct {
+type Raei struct {
 	*graph.Graph
 	DominatingSet  dominatingSet
 	NeedDegree     []need
@@ -34,8 +32,8 @@ type Rei struct {
 }
 
 //New function return an instance of the data
-func New(g *graph.Graph) *Rei {
-	r := &Rei{
+func New(g *graph.Graph) *Raei {
+	r := &Raei{
 		Graph:          g,
 		DominatingSet:  make([]int, 0),
 		NeedDegree:     make([]need, g.N),
@@ -48,12 +46,12 @@ func New(g *graph.Graph) *Rei {
 	return r
 }
 
-func (r *Rei) add(vertex int) {
+func (r *Raei) add(vertex int) {
 	r.DominatingSet = append(r.DominatingSet, vertex)
 	r.remove(vertex)
 }
 
-func (r *Rei) remove(vertex int) {
+func (r *Raei) remove(vertex int) {
 	for k, v := range r.UndominatedSet {
 		if v == vertex {
 			r.UndominatedSet = append(r.UndominatedSet[:k], r.UndominatedSet[k+1:]...)
@@ -62,13 +60,13 @@ func (r *Rei) remove(vertex int) {
 	}
 }
 
-func (r *Rei) need() {
+func (r *Raei) need() {
 	for i := 0; i < r.N; i++ {
 		r.NeedDegree[i].fixed = (len(r.AdjList[i]) + 1) / 2
 	}
 }
 
-func (r *Rei) coverDegree() {
+func (r *Raei) coverDegree() {
 	for i := 0; i < r.N; i++ {
 		for _, v := range r.AdjList[i] {
 			r.CoverDegree[i].fixed += r.NeedDegree[v].fixed
@@ -76,25 +74,19 @@ func (r *Rei) coverDegree() {
 	}
 }
 
-func (r *Rei) init() {
+func (r *Raei) init() {
 	r.need()
 	r.coverDegree()
 }
 
-func (r *Rei) showdata() {
-	for i := 0; i < r.N; i++ {
-		fmt.Println("need(", i, ") :", r.NeedDegree[i], ":", r.NeedDegree[i].getNeed(), "cover(", i, ") :", r.CoverDegree[i], ":", r.CoverDegree[i].getCover())
-	}
-}
-
-func (r *Rei) getSumNeed() (result int) {
+func (r *Raei) getSumNeed() (result int) {
 	for _, v := range r.NeedDegree {
 		result += v.fixed
 	}
 	return
 }
 
-func (r *Rei) getMaxCover() int {
+func (r *Raei) getMaxCover() int {
 	max := r.CoverDegree[r.UndominatedSet[0]].getCover()
 	vertex := r.UndominatedSet[0]
 	for _, value := range r.UndominatedSet {
@@ -106,7 +98,7 @@ func (r *Rei) getMaxCover() int {
 }
 
 //Greedy method of rei's
-func (r *Rei) Greedy() {
+func (r *Raei) Greedy() {
 	r.init()
 	for sum := r.getSumNeed(); sum > 0; {
 		vertex := r.getMaxCover()

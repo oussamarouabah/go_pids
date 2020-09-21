@@ -31,7 +31,7 @@ func (c *cover) getCover() int {
 	return c.fixed - c.reference
 }
 
-//Wang structure
+//Maei structure
 type Maei struct {
 	*graph.Graph
 	DominatingSet  dominatingSet
@@ -92,14 +92,16 @@ func (m *Maei) coverDegree() {
 
 func (m *Maei) getMaxF() (vertex int) {
 	max, vertex := m.NeedDegree[m.UndominatedSet[0]].getMin(), m.UndominatedSet[0]
+	result := make([]int,0)
 	for _, v := range m.UndominatedSet {
-		if tmax := m.NeedDegree[v].getMin(); tmax > max {
+		tmax := m.NeedDegree[v].getMin()
+		if  tmax > max {
 			max, vertex = tmax, v
+			result = make([]int,0)
+			result = append(result, v)
+			continue
 		}
-	}
-	result := make([]int, 0)
-	for _, v := range m.UndominatedSet {
-		if tmax := m.NeedDegree[v].getMin(); tmax == max {
+		if tmax == max {
 			result = append(result, v)
 		}
 	}
@@ -111,15 +113,16 @@ func (m *Maei) getMaxF() (vertex int) {
 
 func (m *Maei) getMaxCover(list []int) int {
 	max := m.CoverDegree[list[0]].getCover()
-	for _, value := range list {
-		if tmax := m.CoverDegree[value].getCover(); tmax > max {
-			max = tmax
-		}
-	}
-
 	result := make([]int, 0)
 	for _, value := range list {
-		if m.CoverDegree[value].getCover() == max {
+		tmax := m.CoverDegree[value].getCover()
+		if  tmax > max {
+			max = tmax
+			result = make([]int,0)
+			result = append(result, value)
+			continue
+		}
+		if tmax == max {
 			result = append(result, value)
 		}
 	}

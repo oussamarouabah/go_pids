@@ -73,14 +73,16 @@ func (w *Wang) getSumNeed() (result int) {
 
 func (w *Wang) getMaxF() int {
 	max := w.NeedDegree[w.UndominatedSet[0]].getMin()
-	for _, v := range w.UndominatedSet {
-		if tmax := w.NeedDegree[v].getMin(); tmax > max {
-			max = tmax
-		}
-	}
 	result := make([]int, 0)
 	for _, v := range w.UndominatedSet {
-		if tmax := w.NeedDegree[v].getMin(); tmax == max {
+		tmax := w.NeedDegree[v].getMin()
+		if tmax > max {
+			max = tmax
+			result = make([]int, 0)
+			result = append(result, v)
+			continue
+		}
+		if tmax == max {
 			result = append(result, v)
 		}
 	}
